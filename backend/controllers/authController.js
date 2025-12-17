@@ -18,6 +18,9 @@ const authUser = async (req, res) => {
             if (user.role === 'mentor' && !user.isApproved) {
                 return res.status(403).json({ message: 'Mentor account not yet approved' });
             }
+            if (user.isActive === false) {
+                return res.status(403).json({ message: 'Account deactivated. Please contact admin.' });
+            }
 
             res.json({
                 _id: user._id,

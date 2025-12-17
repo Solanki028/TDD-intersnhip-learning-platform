@@ -50,12 +50,12 @@ const getAllCourses = async (req, res) => {
 
 // @desc    Update course
 // @route   PUT /api/courses/:id
-// @access  Private/Mentor
+// @access  Private/Mentor/Admin
 const updateCourse = async (req, res) => {
     const course = await Course.findById(req.params.id);
 
     if (course) {
-        if (course.mentor.toString() !== req.user._id.toString()) {
+        if (req.user.role !== 'admin' && course.mentor.toString() !== req.user._id.toString()) {
             return res.status(401).json({ message: 'Not authorized to update this course' });
         }
 
@@ -71,12 +71,12 @@ const updateCourse = async (req, res) => {
 
 // @desc    Delete course
 // @route   DELETE /api/courses/:id
-// @access  Private/Mentor
+// @access  Private/Mentor/Admin
 const deleteCourse = async (req, res) => {
     const course = await Course.findById(req.params.id);
 
     if (course) {
-        if (course.mentor.toString() !== req.user._id.toString()) {
+        if (req.user.role !== 'admin' && course.mentor.toString() !== req.user._id.toString()) {
             return res.status(401).json({ message: 'Not authorized to delete this course' });
         }
 
@@ -121,6 +121,9 @@ const assignCourse = async (req, res) => {
 // @route   POST /api/courses/:id/chapters
 // @access  Private/Mentor
 const addChapter = async (req, res) => {
+    // ... existing addChapter logic ...
+    // (Wait, I need to make sure I don't accidentally cut off simple replacements. I'll use target content carefully)
+    // Actually, I can just replace the specific function blocks.
     const { title, description, videoUrl, sequenceOrder } = req.body;
     const course = await Course.findById(req.params.id);
 
@@ -218,12 +221,12 @@ const getStudentCourses = async (req, res) => {
 
 // @desc    Get students enrolled in a course with progress
 // @route   GET /api/courses/:id/students
-// @access  Private/Mentor
+// @access  Private/Mentor/Admin
 const getEnrolledStudents = async (req, res) => {
     const course = await Course.findById(req.params.id);
 
     if (course) {
-        if (course.mentor.toString() !== req.user._id.toString()) {
+        if (req.user.role !== 'admin' && course.mentor.toString() !== req.user._id.toString()) {
             return res.status(401).json({ message: 'Not authorized' });
         }
 
@@ -263,8 +266,6 @@ module.exports = {
     addChapter,
     getChapters,
     getStudentCourses,
-    getStudentCourses,
-    updateChapter,
     updateChapter,
     getEnrolledStudents,
     getAllCourses,

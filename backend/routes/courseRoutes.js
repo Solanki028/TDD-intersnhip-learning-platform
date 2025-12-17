@@ -26,8 +26,8 @@ router.route('/student')
     .get(protect, authorize('student'), getStudentCourses);
 
 router.route('/:id')
-    .put(protect, authorize('mentor'), updateCourse)
-    .delete(protect, authorize('mentor'), deleteCourse);
+    .put(protect, authorize('mentor', 'admin'), updateCourse)
+    .delete(protect, authorize('mentor', 'admin'), deleteCourse);
 
 router.route('/:id/assign')
     .post(protect, authorize('mentor'), assignCourse);
@@ -40,6 +40,6 @@ router.route('/:id/chapters/:chapterId')
     .put(protect, authorize('mentor'), updateChapter);
 
 router.route('/:id/students')
-    .get(protect, authorize('mentor'), getEnrolledStudents);
+    .get(protect, authorize('mentor', 'admin'), getEnrolledStudents);
 
 module.exports = router;

@@ -17,13 +17,8 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const data = await register(formData.name, formData.email, formData.password, formData.role);
-            if (formData.role === 'mentor') {
-                alert('Registration successful. Please wait for admin approval before logging in.');
-                navigate('/login');
-            } else {
-                navigate('/');
-            }
+            const data = await register(formData.name, formData.email, formData.password, 'student'); // Force student role
+            navigate('/');
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.message || 'Registration failed');
@@ -110,42 +105,7 @@ const Register = () => {
                             />
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-1">I want to join as a</label>
-                            <div className="grid grid-cols-2 gap-4">
-                                <label className={`
-                                    relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-200
-                                    ${formData.role === 'student' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 hover:border-gray-300'}
-                                `}>
-                                    <input
-                                        type="radio"
-                                        name="role"
-                                        value="student"
-                                        checked={formData.role === 'student'}
-                                        onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                                        className="sr-only"
-                                    />
-                                    <span className="text-2xl mb-1">👨‍🎓</span>
-                                    <span className={`text-sm font-bold ${formData.role === 'student' ? 'text-indigo-700' : 'text-gray-600'}`}>Student</span>
-                                </label>
-
-                                <label className={`
-                                    relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-200
-                                    ${formData.role === 'mentor' ? 'border-purple-500 bg-purple-50' : 'border-gray-200 hover:border-gray-300'}
-                                `}>
-                                    <input
-                                        type="radio"
-                                        name="role"
-                                        value="mentor"
-                                        checked={formData.role === 'mentor'}
-                                        onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                                        className="sr-only"
-                                    />
-                                    <span className="text-2xl mb-1">👩‍🏫</span>
-                                    <span className={`text-sm font-bold ${formData.role === 'mentor' ? 'text-purple-700' : 'text-gray-600'}`}>Mentor</span>
-                                </label>
-                            </div>
-                        </div>
+                        {/* Role selection removed - Defaults to Student */}
 
                         <button
                             type="submit"

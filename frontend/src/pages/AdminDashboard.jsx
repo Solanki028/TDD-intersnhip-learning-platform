@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import AdminStats from '../components/admin/AdminStats';
 import UserManagement from '../components/admin/UserManagement';
 import CourseManagement from '../components/admin/CourseManagement';
+import AdminSettings from '../components/admin/AdminSettings';
 
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
@@ -99,7 +100,7 @@ const AdminDashboard = () => {
                     </div>
 
                     <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
-                        {['overview', 'users', 'courses'].map((tab) => (
+                        {['overview', 'users', 'courses', 'settings'].map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
@@ -148,8 +149,12 @@ const AdminDashboard = () => {
 
                 {activeTab === 'courses' && (
                     <div className="animate-fade-in">
-                        <CourseManagement courses={courses} />
+                        <CourseManagement courses={courses} refreshData={fetchAllCourses} />
                     </div>
+                )}
+
+                {activeTab === 'settings' && (
+                    <AdminSettings />
                 )}
 
             </main>

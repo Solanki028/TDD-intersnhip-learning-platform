@@ -20,7 +20,7 @@ const Login = () => {
             await login(formData.email, formData.password);
             navigate('/');
         } catch (err) {
-            setError('Invalid email or password');
+            setError(err.response?.data?.message || 'Invalid email or password');
         }
     };
 
@@ -71,10 +71,10 @@ const Login = () => {
                             />
                         </div>
                         <div>
-                            <div className="flex justify-between items-center mb-2">
+                            {/* <div className="flex justify-between items-center mb-2">
                                 <label className="block text-sm font-semibold text-gray-700">Password</label>
                                 <a href="#" className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">Forgot Password?</a>
-                            </div>
+                            </div> */}
                             <input
                                 type="password"
                                 className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 outline-none"

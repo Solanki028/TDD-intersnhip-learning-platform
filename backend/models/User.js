@@ -23,7 +23,11 @@ const userSchema = mongoose.Schema(
         },
         isApproved: {
             type: Boolean,
-            default: false, // Default false for mentors, true for others handled in logic
+            default: false,
+        },
+        isActive: {
+            type: Boolean,
+            default: true,
         },
     },
     {
